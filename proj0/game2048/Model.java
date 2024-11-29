@@ -1,11 +1,12 @@
 package game2048;
 
 import java.util.Formatter;
+import java.util.Iterator;
 import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author R1C4RD0
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -109,12 +110,42 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+//        iterate through the board from top left
+        for (int c = 0; c < board.size(); c++) {
+            for (int r = board.size() - 1; r >= 0; r--) {
+//                if the position is empty, move the down tile to this position
+                if (null == board.tile(c, r)) {
+                    for (int r_down = r - 1; r_down >= 0; r_down--) {
+                        if (null != board.tile(c, r_down)) {
+                            board.move(c, r, board.tile(c, r_down));
+                            changed = true;
+                            break;
+                        }
+                    }
+                }
+//                double check if the position is empty
+                if (null == board.tile(c, r)) {
+                    break;// no tile below this position, move to next column
+                } else {
+                    for (int r_to_merge = r - 1; r_to_merge >= 0; r_to_merge--) {
+                        if (board.tile(c, r_to_merge) != null && board.tile(c, r_to_merge).value() == board.tile(c, r).value()) {
+                            if (board.move(c, r, board.tile(c, r_to_merge))) {
+                                changed = true;
+                                score += board.tile(c, r).value();// the value of the merged tile is doubled
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         checkGameOver();
+        board.setViewingPerspective(Side.NORTH);
         if (changed) {
             setChanged();
         }
@@ -137,7 +168,11 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for (Tile tile : b) {
+            if (tile == null) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -147,7 +182,11 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (Tile tile : b) {
+            if (tile != null && tile.value() == MAX_PIECE) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -158,7 +197,25 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                Tile tile = b.tile(i, j);
+                if (tile == null) {
+                    return true;
+                }
+//                check the adjacent tiles, just check two directions is enough
+                if (i < b.size() - 1
+                        && b.tile(i + 1, j) != null
+                        && tile.value() == b.tile(i + 1, j).value()) {
+                    return true;
+                }
+                if (j < b.size() - 1
+                        && b.tile(i, j + 1) != null
+                        && tile.value() == b.tile(i, j + 1).value()) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
