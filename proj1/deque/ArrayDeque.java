@@ -7,7 +7,7 @@ import java.util.Iterator;
  *  - The next item added by addFirst will be placed at items[nextFirst]
  *  - The next item added by addLast will be placed at items[nextLast]
  *  - The item at items[nextFirst + 1] % items.length is the first item in the deque
- *  - The item at items[nextLast - 1 + items.length] % items.length is the last item in the deque
+ *  - The item at items[(nextLast - 1 + items.length) % items.length] is the last item in the deque
  *  - The number of items in the deque is size
  *  - The capacity of the deque is always a power of 2
  *  - The usage ratio of the deque is always greater than MIN_USAGE_RATIO unless the capacity is less than MIN_CAPACITY
@@ -64,7 +64,7 @@ public class ArrayDeque<T> implements Deque<T> {
         items[nextFirst] = null;    // null out the deleted item for garbage collection
         size--;
         checkCapacity();
-        return items[nextFirst];
+        return get(0);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ArrayDeque<T> implements Deque<T> {
         items[nextLast] = null;    // null out the deleted item for garbage collection
         size--;
         checkCapacity();
-        return items[nextLast];
+        return get(size - 1);
     }
 
     @Override
