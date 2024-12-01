@@ -60,11 +60,12 @@ public class ArrayDeque<T> implements Deque<T> {
         if (isEmpty()) {
             return null;
         }
+        T item = get(0);
         nextFirst = (nextFirst + 1) % items.length;
         items[nextFirst] = null;    // null out the deleted item for garbage collection
         size--;
         checkCapacity();
-        return get(0);
+        return item;
     }
 
     @Override
@@ -72,11 +73,12 @@ public class ArrayDeque<T> implements Deque<T> {
         if (isEmpty()) {
             return null;
         }
+        T item = get(size - 1);
         nextLast = (nextLast - 1 + items.length) % items.length;
         items[nextLast] = null;    // null out the deleted item for garbage collection
         size--;
         checkCapacity();
-        return get(size - 1);
+        return item;
     }
 
     @Override
