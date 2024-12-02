@@ -2,13 +2,13 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
-    private Node sentinel;
+    private final Node sentinel;
     private int size;
 
     private class Node {
-        private T item;
+        private final T item;
         private Node prev;
         private Node next;
 
@@ -87,6 +87,20 @@ public class LinkedListDeque<T> implements Deque<T> {
         return p.item;
     }
 
+    public T getRecursive(int index) {
+        if (index < 0 || index >= size) {
+            return null;
+        }
+        return getRecursive(index, sentinel.next);
+    }
+
+    private T getRecursive(int index, Node next) {
+        if (index == 0) {
+            return next.item;
+        }
+        return getRecursive(index - 1, next.next);
+    }
+
     @Override
     public void printDeque() {
         Node p = sentinel.next;
@@ -97,7 +111,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         System.out.println();
     }
 
-    @Override
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }

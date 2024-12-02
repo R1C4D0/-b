@@ -1,11 +1,9 @@
 package deque;
 
-import java.util.Iterator;
-
 public interface Deque<T> {
     int size();
 
-    default boolean isEmpty(){
+    default boolean isEmpty() {
         return size() == 0;
     }
 
@@ -20,8 +18,6 @@ public interface Deque<T> {
     T get(int index);
 
     void printDeque();
-
-    public Iterator<T> iterator();
 
     default boolean equals(Deque<T> other) {
         if (size() != other.size()) {

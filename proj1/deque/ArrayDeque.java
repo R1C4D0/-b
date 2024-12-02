@@ -12,14 +12,14 @@ import java.util.Iterator;
  *  - The capacity of the deque is always a power of 2
  *  - The usage ratio of the deque is always greater than MIN_USAGE_RATIO unless the capacity is less than MIN_CAPACITY
  */
-public class ArrayDeque<T> implements Deque<T> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
     private T[] items;
     private static final int INIT_CAPACITY = 8;
     private static final int RESIZE_FACTOR = 2;
-    private static final int MIN_CAPACITY = 16; //For arrays of length MIN_CAPACITY or less, do not consider MIN_USAGE_RATIO
+    private static final int MIN_CAPACITY = 16; //For length MIN_CAPACITY or less, do not consider MIN_USAGE_RATIO
     private static final int MIN_USAGE_RATIO = 4;
 
     public ArrayDeque() {
