@@ -19,21 +19,4 @@ public interface Deque<T> {
 
     void printDeque();
 
-    static <T> boolean equals(Deque<T> a, Deque<T> b) {
-        if (a == b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        if (a.size() != b.size()) {
-            return false;
-        }
-        for (int i = 0; i < a.size(); i++) {
-            if (a.get(i) != b.get(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
 }
