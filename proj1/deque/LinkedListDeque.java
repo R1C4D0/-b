@@ -132,13 +132,6 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        int result = sentinel.hashCode();
-        result = 31 * result + size;
-        return result;
-    }
-
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }

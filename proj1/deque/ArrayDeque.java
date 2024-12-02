@@ -22,7 +22,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private static final int INIT_CAPACITY = 8;
     private static final int RESIZE_FACTOR = 2;
     private static final int MIN_CAPACITY = 16; //For length MIN_CAPACITY or less, do not consider MIN_USAGE_RATIO
-    private static final int MIN_USAGE_RATIO = 2;
+    private static final int MIN_USAGE_RATIO = 4;
 
     public ArrayDeque() {
         size = 0;
@@ -118,13 +118,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public int hashCode() {
-        int result = size();
-        result = 31 * result + Arrays.hashCode(items);
-        return result;
-    }
-
-    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
@@ -153,7 +146,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private class ArrayDequeIterator implements Iterator<T> {
         private int index;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             index = 0;
         }
 
