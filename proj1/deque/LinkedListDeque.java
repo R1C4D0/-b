@@ -111,6 +111,11 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         System.out.println();
     }
 
+    @Override
+    public boolean equals(Deque<T> other) {
+        return Deque.super.equals(other);
+    }
+
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }

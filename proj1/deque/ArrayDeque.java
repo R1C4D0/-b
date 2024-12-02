@@ -95,6 +95,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
+    public boolean equals(Deque<T> other) {
+        return Deque.super.equals(other);
+    }
+
+    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
@@ -114,7 +119,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private void checkCapacity() {
         if (size == items.length) {
             resize(size * RESIZE_FACTOR);
-        } else if (size < items.length / MIN_USAGE_RATIO && size > MIN_CAPACITY) {
+        } else if (size <= items.length / MIN_USAGE_RATIO && size > MIN_CAPACITY) {
             resize(items.length / RESIZE_FACTOR);
         }
     }
