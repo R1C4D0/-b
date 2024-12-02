@@ -95,11 +95,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public boolean equals(Deque<T> other) {
-        return Deque.super.equals(other);
-    }
-
-    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
