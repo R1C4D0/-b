@@ -1,5 +1,6 @@
 package deque;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /*
@@ -20,7 +21,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private static final int INIT_CAPACITY = 8;
     private static final int RESIZE_FACTOR = 2;
     private static final int MIN_CAPACITY = 16; //For length MIN_CAPACITY or less, do not consider MIN_USAGE_RATIO
-    private static final int MIN_USAGE_RATIO = 4;
+    private static final int MIN_USAGE_RATIO = 2;
 
     public ArrayDeque() {
         size = 0;
@@ -78,7 +79,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T get(int index) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index >= size()) {
             return null;
         }
         return items[(nextFirst + 1 + index) % items.length];
@@ -87,11 +88,33 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void printDeque() {
         int index = (nextFirst + 1) % items.length;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size(); i++) {
             System.out.print(items[index] + " ");
             index = (index + 1) % items.length;
         }
         System.out.println();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ArrayDeque<?> that = (ArrayDeque<?>) o;
+        if (size() != that.size()) return false;
+        for (int i = 0; i < size(); i++) {
+            if (!get(i).equals(that.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = size();
+        result = 31 * result + Arrays.hashCode(items);
+        return result;
     }
 
     @Override
@@ -102,19 +125,19 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private void resize(int capacity) {
         T[] newItems = (T[]) new Object[capacity];
         int oldIndex = (nextFirst + 1) % items.length;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size(); i++) {
             newItems[i] = items[oldIndex];
             oldIndex = (oldIndex + 1) % items.length;
         }
         items = newItems;
         nextFirst = capacity - 1;
-        nextLast = size;
+        nextLast = size();
     }
 
     private void checkCapacity() {
-        if (size == items.length) {
-            resize(size * RESIZE_FACTOR);
-        } else if (size <= items.length / MIN_USAGE_RATIO && size > MIN_CAPACITY) {
+        if (size() == items.length) {
+            resize(size() * RESIZE_FACTOR);
+        } else if (size() <= items.length / MIN_USAGE_RATIO && size() > MIN_CAPACITY) {
             resize(items.length / RESIZE_FACTOR);
         }
     }
@@ -129,7 +152,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            return index < size;
+            return index < size();
         }
 
         @Override

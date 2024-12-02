@@ -18,17 +18,4 @@ public interface Deque<T> {
     T get(int index);
 
     void printDeque();
-
-    default boolean equals(Deque<T> other) {
-        if (size() != other.size()) {
-            return false;
-        }
-        for (int i = 0; i < size(); i++) {
-            if (!get(i).equals(other.get(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }

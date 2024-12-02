@@ -77,7 +77,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T get(int index) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index >= size()) {
             return null;
         }
         Node p = sentinel.next;
@@ -88,7 +88,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public T getRecursive(int index) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index >= size()) {
             return null;
         }
         return getRecursive(index, sentinel.next);
@@ -109,6 +109,28 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             p = p.next;
         }
         System.out.println();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || o.getClass() != this.getClass()) return false;
+
+        LinkedListDeque<?> other = (LinkedListDeque<?>) o;
+        if (size() != other.size()) return false;
+        for (int i = 0; i < size(); i++) {
+            if (!get(i).equals(other.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sentinel.hashCode();
+        result = 31 * result + size;
+        return result;
     }
 
     public Iterator<T> iterator() {
