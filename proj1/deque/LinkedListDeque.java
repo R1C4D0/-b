@@ -32,11 +32,6 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     @Override
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
-    @Override
     public void addFirst(T item) {
         Node newNode = new Node(item, sentinel, sentinel.next);
         sentinel.next.prev = newNode;
