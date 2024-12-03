@@ -137,7 +137,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private void checkCapacity() {
         if (size() == items.length) {
             resize(size() * RESIZE_FACTOR);
-        } else if (size() <= items.length / MIN_USAGE_RATIO && size() > MIN_CAPACITY) {
+        } else if (size() <= items.length / MIN_USAGE_RATIO && items.length > MIN_CAPACITY) {
             resize(items.length / RESIZE_FACTOR);
         }
     }
