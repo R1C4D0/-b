@@ -1,6 +1,5 @@
 package deque;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -12,7 +11,8 @@ import java.util.Objects;
  *  - The item at items[(nextLast - 1 + items.length) % items.length] is the last item in the deque
  *  - The number of items in the deque is size
  *  - The capacity of the deque is always a power of 2
- *  - The usage ratio of the deque is always greater than MIN_USAGE_RATIO unless the capacity is less than MIN_CAPACITY
+ *  - The usage ratio of the deque is always greater
+ *      than MIN_USAGE_RATIO unless the capacity is less than MIN_CAPACITY
  */
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
@@ -21,7 +21,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] items;
     private static final int INIT_CAPACITY = 8;
     private static final int RESIZE_FACTOR = 2;
-    private static final int MIN_CAPACITY = 16; //For length MIN_CAPACITY or less, do not consider MIN_USAGE_RATIO
+    private static final int MIN_CAPACITY = 16;
     private static final int MIN_USAGE_RATIO = 4;
 
     public ArrayDeque() {
@@ -101,7 +101,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        if (o == null || !(o instanceof Deque)) {
+        if (!(o instanceof Deque)) {
             return false;
         }
         Deque<T> other = (Deque<T>) o;
