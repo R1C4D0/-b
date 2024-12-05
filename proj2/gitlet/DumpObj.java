@@ -1,5 +1,7 @@
 package gitlet;
 
+import gitlet.infrastructure.Utils.Utils;
+
 import java.io.File;
 
 /** A debugging class whose main program may be invoked as follows:
