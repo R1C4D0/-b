@@ -38,8 +38,64 @@ public class Commit {
     /* the file names and references to these blobs contained in this commit */
     private Map<String, Blob> blobs;
 
-    public Commit(String message) {
+    public Commit(String message, Commit parent) {
         this.message = message;
+        this.parent = parent;
+    }
+
+    /**
+     * The INITIAL commit contains no files and has the commit message "initial commit" (just
+     * like that, with no punctuation).
+     * It will have a single branch: master, which initially points to this initial commit,
+     * and master will be the current branch.
+     * The timestamp for this initial commit will be 00:00:00 UTC, Thursday, 1 January 1970.
+     *
+     * @return the INITIAL commit
+     */
+    public static Commit createInitialCommit() {
+        Commit initialCommit = new Commit("initial commit", null);
+        initialCommit.setTimestamp(new Date(0));
+        return initialCommit;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Commit getParent() {
+        return parent;
+    }
+
+    public void setParent(Commit parent) {
+        this.parent = parent;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public Map<String, Blob> getBlobs() {
+        return blobs;
+    }
+
+    public void setBlobs(Map<String, Blob> blobs) {
+        this.blobs = blobs;
     }
 
 }

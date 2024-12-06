@@ -1,10 +1,12 @@
 package gitlet;
 
 import gitlet.Interfaces.req.CommandRequest;
+import gitlet.application.service.CommitApplicationService;
 import gitlet.application.service.MainApplicationService;
 import gitlet.application.service.RepositoryApplicationService;
 import gitlet.enums.CommandType;
 import gitlet.enums.ErrorMessage;
+import gitlet.infrastructure.Exception.GitletException;
 
 /**
  * Driver class for Gitlet, a subset of the Git version-control system.
@@ -14,6 +16,8 @@ import gitlet.enums.ErrorMessage;
 public class Main {
 
     private static final RepositoryApplicationService repositoryApplicationService = new RepositoryApplicationService();
+    private static final MainApplicationService mainApplicationService = new MainApplicationService();
+    private static final CommitApplicationService commitApplicationService = new CommitApplicationService();
 
     /**
      * Usage: java gitlet.Main ARGS, where ARGS contains
@@ -60,7 +64,11 @@ public class Main {
     }
 
     private static void mapToInit(CommandRequest commandRequest) {
-        repositoryApplicationService.initRepository(commandRequest);
+        try {
+            repositoryApplicationService.initRepository(commandRequest);
+        } catch (GitletException e) {
+            MainApplicationService.exitWithError(e.getMessage());
+        }
     }
 
     private static void mapToAdd(CommandRequest command) {
