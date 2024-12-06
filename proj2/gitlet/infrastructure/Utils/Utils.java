@@ -1,6 +1,8 @@
 package gitlet.infrastructure.Utils;
 
 
+import gitlet.infrastructure.Exception.GitletException;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -262,7 +264,7 @@ public class Utils {
      * Return a GitletException whose message is composed from MSG and ARGS as
      * for the String.format method.
      */
-     public static GitletException error(String msg, Object... args) {
+     private static GitletException error(String msg, Object... args) {
         return new GitletException(String.format(msg, args));
     }
 
