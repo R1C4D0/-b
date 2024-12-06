@@ -7,6 +7,7 @@ import gitlet.enums.ErrorMessage;
 import gitlet.enums.RepositoryDirectory;
 import gitlet.infrastructure.Utils.Utils;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,19 +15,20 @@ public interface RepositoryDomainService {
 
     /**
      * Creates all necessary directories for the repository.
+     *
+     * @throws IOException if the directories cannot be created.
      */
-    private void createDirectories() {
+    private void createRepoDirectories() throws IOException {
         try {
             if (!Repository.GITLET_DIR.mkdir()) {
-                throw new RuntimeException();
+                throw new IOException();
             }
-
             for (RepositoryDirectory dir : RepositoryDirectory.values()) {
                 Path dirPath = Utils.join(Repository.GITLET_DIR, dir.getDirName()).toPath();
                 Files.createDirectory(dirPath);
             }
         } catch (Exception e) {
-            MainApplicationService.exitWithError(ErrorMessage.INIT_FAILED.getMessage());
+            throw new IOException(ErrorMessage.INIT_FAILED.getMessage());
         }
     }
 
@@ -38,14 +40,19 @@ public interface RepositoryDomainService {
     }
 
     /**
+     * Initializes a new repository in the current directory CWD.
      * Creates the .gitlet directory and other necessary subdirectories.
      * The program will exit with an error message if the directory already exists.
      */
-    default void setupPersistence() {
-        if (repoExists()) {
-            MainApplicationService.exitWithError(ErrorMessage.INIT_REPEATED.getMessage());
+    default void initRepository() {
+        try {
+            if (repoExists()) {
+                MainApplicationService.exitWithError(ErrorMessage.INIT_REPEATED.getMessage());
+            }
+            createRepoDirectories();
+        } catch (IOException e) {
+            MainApplicationService.exitWithError(ErrorMessage.INIT_FAILED.getMessage());
         }
-        createDirectories();
         Commit initialCommit = new Commit("initial commit");
     }
 }

@@ -11,7 +11,7 @@ public class RepositoryDomainServiceImpl implements RepositoryDomainService {
     }
 
     @Override
-    public void setupPersistence() {
+    public void initRepository() {
 //        create the .gitlet directory and the initial commit:
         Repository.GITLET_DIR.mkdir();
         Repository.INITIAL_COMMIT.save();
