@@ -21,13 +21,19 @@ public class Repository {
     /**
      * The .gitlet directory.
      */
-    public static final File GITLET_DIR = join(CWD, ".gitlet");
+    private static final File GITLET_DIR = join(CWD, ".gitlet");
 
     /**
      * The heads of all the branches in the repository.
      */
     private Set<Branch> heads;
 
+    /**
+     * @return the GITLET_DIR
+     */
+    public static File getGitletDir() {
+        return GITLET_DIR;
+    }
 
     public Set<Branch> getHeads() {
         return heads;
@@ -36,5 +42,4 @@ public class Repository {
     public void setHeads(Set<Branch> heads) {
         this.heads = heads;
     }
-
 }

@@ -9,7 +9,7 @@ public interface RepositoryDomainService {
      * @return true if the repository exists, false otherwise.
      */
     default boolean repoExists() {
-        return Repository.GITLET_DIR.exists();
+        return Repository.getGitletDir().exists();
     }
 
     /**

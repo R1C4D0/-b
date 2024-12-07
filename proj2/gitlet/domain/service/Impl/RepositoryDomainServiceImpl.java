@@ -36,13 +36,11 @@ public class RepositoryDomainServiceImpl implements RepositoryDomainService {
      */
     private void createRepoDirectories() throws IOException {
         try {
-            if (!Repository.GITLET_DIR.mkdir()) {
+            if (!Repository.getGitletDir().mkdir()) {
                 throw new IOException();
             }
-            // After
-            for (File dir
-                    : new RepositoryRepositoryImpl().getRepoSubdirectories()) {
-                Path dirPath = Utils.join(Repository.GITLET_DIR, dir.getName()).toPath();
+            for (File dir : new RepositoryRepositoryImpl().getRepoSubdirectories()) {
+                Path dirPath = Utils.join(Repository.getGitletDir(), dir.getName()).toPath();
                 Files.createDirectory(dirPath);
             }
         } catch (Exception e) {
