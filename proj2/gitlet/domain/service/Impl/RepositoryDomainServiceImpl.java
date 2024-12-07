@@ -2,6 +2,7 @@ package gitlet.domain.service.Impl;
 
 import gitlet.domain.factory.RepositoryFactory;
 import gitlet.domain.model.Repository;
+import gitlet.domain.repository.RepositoryRepository;
 import gitlet.domain.service.RepositoryDomainService;
 import gitlet.enums.ErrorMessage;
 import gitlet.infrastructure.Exception.GitletException;
@@ -14,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class RepositoryDomainServiceImpl implements RepositoryDomainService {
+
+    private final RepositoryRepository repositoryRepository = new RepositoryRepositoryImpl();
 
     @Override
     public Repository initRepository() throws GitletException {
@@ -36,11 +39,11 @@ public class RepositoryDomainServiceImpl implements RepositoryDomainService {
      */
     private void createRepoDirectories() throws IOException {
         try {
-            if (!Repository.getGitletDir().mkdir()) {
+            if (!repositoryRepository.getGitletDir().mkdir()) {
                 throw new IOException();
             }
             for (File dir : new RepositoryRepositoryImpl().getRepoSubdirectories()) {
-                Path dirPath = Utils.join(Repository.getGitletDir(), dir.getName()).toPath();
+                Path dirPath = Utils.join(repositoryRepository.getGitletDir(), dir.getName()).toPath();
                 Files.createDirectory(dirPath);
             }
         } catch (Exception e) {

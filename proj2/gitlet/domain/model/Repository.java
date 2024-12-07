@@ -1,9 +1,7 @@
 package gitlet.domain.model;
 
-import java.io.File;
+import java.io.Serializable;
 import java.util.Set;
-
-import static gitlet.infrastructure.Utils.Utils.join;
 
 
 /**
@@ -13,27 +11,11 @@ import static gitlet.infrastructure.Utils.Utils.join;
  *
  * @author R1C4RD0
  */
-public class Repository {
-    /**
-     * The current working directory.
-     */
-    public static final File CWD = new File(System.getProperty("user.dir"));
-    /**
-     * The .gitlet directory.
-     */
-    private static final File GITLET_DIR = join(CWD, ".gitlet");
-
+public class Repository implements Serializable {
     /**
      * The heads of all the branches in the repository.
      */
     private Set<Branch> heads;
-
-    /**
-     * @return the GITLET_DIR
-     */
-    public static File getGitletDir() {
-        return GITLET_DIR;
-    }
 
     public Set<Branch> getHeads() {
         return heads;

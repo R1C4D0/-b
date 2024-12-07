@@ -3,29 +3,24 @@ package gitlet.domain.repository;
 import gitlet.domain.model.Repository;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
-
-import static gitlet.infrastructure.Utils.Utils.join;
 
 public interface RepositoryRepository {
 
     /**
-     * @return a collection of all the subdirectories in the .gitlet directory.
+     * @return the GITLET_DIR
      */
-    default Collection<File> getRepoSubdirectories() {
-        return Arrays.stream(RepositoryDirectory.values())
-                .map(dir -> new File(String.join(getRepositoryDirectory().getAbsolutePath(), dir.getDirName())))
-                .collect(Collectors.toList());
-    }
+    File getGitletDir();
 
     /**
-     * @return the location where the repository is persisted.
+     * @return a collection of all the subdirectories in the .gitlet directory.
      */
-    default File getRepoLocation() {
-        return join(Repository.GITLET_DIR, "repository");
-    }
+    Collection<File> getRepoSubdirectories();
+
+    /**
+     * @return the persisted repository
+     */
+    Repository getPersistedRepo();
 
     void save(Repository repository);
 
@@ -33,9 +28,10 @@ public interface RepositoryRepository {
 
     void delete();
 
-    default File getRepositoryDirectory() {
-        return new File(".gitlet");
-    }
+    /**
+     * @return the repository directory
+     */
+    File getRepositoryDirectory();
 
     /**
      * Enum representing the directories in the .gitlet directory.

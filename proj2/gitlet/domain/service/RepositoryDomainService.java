@@ -1,15 +1,19 @@
 package gitlet.domain.service;
 
 import gitlet.domain.model.Repository;
+import gitlet.domain.repository.RepositoryRepository;
 import gitlet.infrastructure.Exception.GitletException;
+import gitlet.infrastructure.repositoryImpl.RepositoryRepositoryImpl;
 
 public interface RepositoryDomainService {
+
+    RepositoryRepository repositoryRepository = new RepositoryRepositoryImpl();
 
     /**
      * @return true if the repository exists, false otherwise.
      */
     default boolean repoExists() {
-        return Repository.getGitletDir().exists();
+        return repositoryRepository.getGitletDir().exists();
     }
 
     /**
