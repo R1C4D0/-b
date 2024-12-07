@@ -16,6 +16,15 @@ public class Repository implements Serializable {
      * The heads of all the branches in the repository.
      */
     private Set<Branch> heads;
+    /**
+     * The current branch.
+     */
+    private Branch currentBranch;
+
+    public Repository(Branch currentBranch) {
+        this.currentBranch = currentBranch;
+        this.heads = Set.of(currentBranch);
+    }
 
     public Set<Branch> getHeads() {
         return heads;
@@ -23,5 +32,13 @@ public class Repository implements Serializable {
 
     public void setHeads(Set<Branch> heads) {
         this.heads = heads;
+    }
+
+    public Branch getCurrentBranch() {
+        return currentBranch;
+    }
+
+    public void setCurrentBranch(Branch currentBranch) {
+        this.currentBranch = currentBranch;
     }
 }

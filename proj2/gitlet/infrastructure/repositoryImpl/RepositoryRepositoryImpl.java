@@ -28,10 +28,12 @@ public class RepositoryRepositoryImpl implements RepositoryRepository {
      */
     private static final File GITLET_DIR = join(CWD, ".gitlet");
 
+    private static final File REPOSITORY_DIR = join(GITLET_DIR, "repository");
+
 
     @Override
     public File getGitletDir() {
-        return null;
+        return GITLET_DIR;
     }
 
     @Override
@@ -44,22 +46,21 @@ public class RepositoryRepositoryImpl implements RepositoryRepository {
 
     @Override
     public Repository getPersistedRepo() {
-        return Utils.readObject(join(getRepositoryDirectory(), "repository"), Repository.class);
+        return Utils.readObject(getRepositoryFile(), Repository.class);
+    }
+
+    private File getRepositoryFile() {
+        return REPOSITORY_DIR;
     }
 
     @Override
     public void save(Repository repository) {
-
-    }
-
-    @Override
-    public Repository find() {
-        return null;
+        Utils.writeObject(getRepositoryFile(), repository);
     }
 
     @Override
     public void delete() {
-
+        Utils.restrictedDelete(getGitletDir());
     }
 
     @Override
@@ -69,7 +70,7 @@ public class RepositoryRepositoryImpl implements RepositoryRepository {
 
 
     @Override
-    public Repository initRepository() throws GitletException {
+    public void initRepository() throws GitletException {
         if (repoExists()) {
             throw new GitletException(ErrorMessage.INIT_REPEATED);
         }
@@ -79,7 +80,8 @@ public class RepositoryRepositoryImpl implements RepositoryRepository {
             throw new GitletException(ErrorMessage.INIT_FAILED);
         }
 
-        return RepositoryFactory.createInitialRepository();
+        Repository initialRepository = RepositoryFactory.createInitialRepository();
+        save(initialRepository);
     }
 
     /**

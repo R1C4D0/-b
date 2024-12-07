@@ -6,6 +6,11 @@ import gitlet.infrastructure.Exception.GitletException;
 import java.io.File;
 import java.util.Collection;
 
+/**
+ * RepositoryRepository interface provides methods for managing the Gitlet repository.
+ * It includes methods for initializing, saving, finding, and deleting the repository,
+ * as well as retrieving repository directories and checking if the repository exists.
+ */
 public interface RepositoryRepository {
 
     /**
@@ -24,8 +29,6 @@ public interface RepositoryRepository {
     Repository getPersistedRepo();
 
     void save(Repository repository);
-
-    Repository find();
 
     void delete();
 
@@ -46,10 +49,9 @@ public interface RepositoryRepository {
      * Initializes a new repository in the current directory CWD.
      * Creates the .gitlet directory and other necessary subdirectories.
      *
-     * @return the newly created repository.
      * @throws GitletException if the repository Initialization fails or if the repository already exists.
      */
-    Repository initRepository() throws GitletException;
+    void initRepository() throws GitletException;
 
     /**
      * Enum representing the directories in the .gitlet directory.
