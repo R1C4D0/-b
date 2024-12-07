@@ -1,10 +1,10 @@
 package gitlet.Interfaces.req;
 
 import gitlet.application.service.MainApplicationService;
-import gitlet.domain.service.Impl.RepositoryDomainServiceImpl;
-import gitlet.domain.service.RepositoryDomainService;
+import gitlet.domain.repository.RepositoryRepository;
 import gitlet.enums.CommandType;
 import gitlet.enums.ErrorMessage;
+import gitlet.infrastructure.repositoryImpl.RepositoryRepositoryImpl;
 
 public class CommandRequest {
     private final String[] commandAndOperands;
@@ -72,15 +72,15 @@ public class CommandRequest {
      * The program will exit with an error message if the command is invalid or the number of operands is incorrect.
      */
     private void validateCommandType(CommandType commandType) {
-        RepositoryDomainService repoDomainService = new RepositoryDomainServiceImpl();
+        RepositoryRepository repoRepository = new RepositoryRepositoryImpl();
 
         if (this.commandType == null) {
             MainApplicationService.exitWithError(ErrorMessage.UNKNOWN_COMMAND.getMessage());
         }
-        if (!this.commandType.equals(CommandType.INIT) && !repoDomainService.repoExists()) {
+        if (!this.commandType.equals(CommandType.INIT) && !repoRepository.repoExists()) {
             MainApplicationService.exitWithError(ErrorMessage.NOT_INITIALIZED.getMessage());
         }
-        if (this.commandType.equals(CommandType.INIT) && repoDomainService.repoExists()) {
+        if (this.commandType.equals(CommandType.INIT) && repoRepository.repoExists()) {
             MainApplicationService.exitWithError(ErrorMessage.INIT_REPEATED.getMessage());
         }
         commandType.validateOperands(getOperands());

@@ -1,6 +1,7 @@
 package gitlet.domain.repository;
 
 import gitlet.domain.model.Repository;
+import gitlet.infrastructure.Exception.GitletException;
 
 import java.io.File;
 import java.util.Collection;
@@ -32,6 +33,23 @@ public interface RepositoryRepository {
      * @return the repository directory
      */
     File getRepositoryDirectory();
+
+    /**
+     * @return true if the repository exists, false otherwise.
+     */
+    default boolean repoExists() {
+        return getGitletDir().exists();
+    }
+
+
+    /**
+     * Initializes a new repository in the current directory CWD.
+     * Creates the .gitlet directory and other necessary subdirectories.
+     *
+     * @return the newly created repository.
+     * @throws GitletException if the repository Initialization fails or if the repository already exists.
+     */
+    Repository initRepository() throws GitletException;
 
     /**
      * Enum representing the directories in the .gitlet directory.

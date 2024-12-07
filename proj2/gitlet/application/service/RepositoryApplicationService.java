@@ -1,7 +1,6 @@
 package gitlet.application.service;
 
 import gitlet.Interfaces.req.CommandRequest;
-import gitlet.domain.model.Repository;
 import gitlet.domain.repository.RepositoryRepository;
 import gitlet.domain.service.Impl.RepositoryDomainServiceImpl;
 import gitlet.domain.service.RepositoryDomainService;
@@ -20,8 +19,7 @@ public class RepositoryApplicationService {
      * @throws GitletException if the repository Initialization fails or if the repository already exists.
      */
     public void initRepository(CommandRequest commandRequest) throws GitletException {
-        Repository initialRepo = repositoryDomainService.initRepository();
-        repositoryRepository.save(initialRepo);
+        repositoryRepository.initRepository();
     }
 
     public void addFile(String[] args) {
